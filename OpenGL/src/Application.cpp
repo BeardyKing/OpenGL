@@ -115,6 +115,7 @@ int main(void){
 
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
+    glfwSwapInterval(1); // set refreshrate to display refreshrate
 
     if (glewInit() != GLEW_OK) {
         return -1;
@@ -127,6 +128,7 @@ int main(void){
          0.5f, -0.5f, //1
          0.5f,  0.5f, //2
         -0.5f,  0.5f, //3
+
     };
 
     //index buffer of vertex positions
@@ -160,9 +162,21 @@ int main(void){
     std::cout << source.FragmentSource << std::endl;
 
     unsigned int shader = CreateShader(source.VertexSource, source.FragmentSource);
-    glUseProgram(shader);
+    glUseProgram(shader); // bound shader
 
 
+    float change = 0;
+    bool flip = false;
+    
+
+    int location = glGetUniformLocation(shader, "u_Color"); //get id of the u_Color variable in the shader
+    ASSERT(location != -1);
+
+
+
+
+    float r = 0.0f;
+    float increment = 0.05f;
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -171,12 +185,23 @@ int main(void){
         glClear(GL_COLOR_BUFFER_BIT);
 
         // Draw amount of indices
-        GLCALL(glDrawElements(GL_TRIANGLES, 6,  GL_INT, nullptr)); 
+        GLCALL(glUniform4f(location, r, 0.2, 0.5, 1.0f)); // set uniform to the shader
+        GLCALL(glDrawElements(GL_TRIANGLES, 6,  GL_UNSIGNED_INT, nullptr)); 
+
+        if (r > 1.0f){
+            increment = -0.05f;
+        }
+        else if (r < 0.0f) {
+            increment = 0.05f;
+        }
+        r += increment;
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
         /* Poll for and process events */
         glfwPollEvents();
+
+
     }
 
     glDeleteProgram(shader);
