@@ -106,6 +106,10 @@ int main(void){
         return -1;
     }
 
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
     if (!window){
@@ -137,12 +141,16 @@ int main(void){
         2,3,0
     };
 
+    unsigned int vao;
+
+    GLCALL(glGenVertexArrays(1, &vao));
+    GLCALL(glBindVertexArray(vao));
 
     // Vertex Buffer // buffer of memory that is stored on the GPU
     unsigned int buffer;
     glGenBuffers(1, &buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
-    glBufferData(GL_ARRAY_BUFFER, 6 * 2 * sizeof(float),positions, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, 4 * 2 * sizeof(float),positions, GL_STATIC_DRAW);
 
     // vertext Attributes // layout of the buffer
     glEnableVertexAttribArray(0);// enable index 0
@@ -171,6 +179,12 @@ int main(void){
 
     int location = glGetUniformLocation(shader, "u_Color"); //get id of the u_Color variable in the shader
     ASSERT(location != -1);
+    GLCALL(glUniform4f(location, 0.8, 0.2, 0.5, 1.0f)); // set uniform to the shader
+    GLCALL(glBindVertexArray(0));
+    glUseProgram(0); // bound shader
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
 
 
 
@@ -184,9 +198,17 @@ int main(void){
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
 
+
+        glUseProgram(shader); // bind shader
+        GLCALL(glUniform4f(location, r, 0.2, 0.5, 1.0f)); // set up uniforms
+
+        GLCALL(glBindVertexArray(vao));
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo); //bind index buffer
+
         // Draw amount of indices
-        GLCALL(glUniform4f(location, r, 0.2, 0.5, 1.0f)); // set uniform to the shader
         GLCALL(glDrawElements(GL_TRIANGLES, 6,  GL_UNSIGNED_INT, nullptr)); 
+
+        // change to bind shader -> bind vertex array -> index buffer -> issue draw call
 
         if (r > 1.0f){
             increment = -0.05f;
