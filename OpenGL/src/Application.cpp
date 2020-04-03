@@ -5,6 +5,25 @@
 #include <string>
 #include <sstream>
 
+#define ASSERT(x) if(!(x)) __debugbreak();
+
+#define GLCALL(x) GLClearError();\
+    x;\
+    ASSERT(GLLogCall(#x, __FILE__, __LINE__))
+
+static void GLClearError() {
+    while (glGetError()!= GL_NO_ERROR) {}
+}
+
+static bool GLLogCall(const char* function, const char* file, int line) {
+    while (GLenum error = glGetError()){
+
+        std::cout << " [OpenGL_Error] (" << error << ")" << function << " " << file << ":" << line << std::endl;
+        return false;
+    }
+    return true;
+}
+
 struct ShaderProgramSource {
     std::string VertexSource;
     std::string FragmentSource;
@@ -152,11 +171,10 @@ int main(void){
         glClear(GL_COLOR_BUFFER_BIT);
 
         // Draw amount of indices
-        glDrawElements(GL_TRIANGLES, 6,  GL_UNSIGNED_INT, nullptr); 
+        GLCALL(glDrawElements(GL_TRIANGLES, 6,  GL_INT, nullptr)); 
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
-
         /* Poll for and process events */
         glfwPollEvents();
     }
