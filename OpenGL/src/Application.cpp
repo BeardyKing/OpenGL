@@ -11,6 +11,7 @@
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "Shader.h"
+#include "VertexArray.h"
 
 
 int main(void){
@@ -57,17 +58,14 @@ int main(void){
             2,3,0
         };
 
-        unsigned int vao;
-
-        GLCALL(glGenVertexArrays(1, &vao));
-        GLCALL(glBindVertexArray(vao));
+        VertexArray va;
 
         // Vertex Buffer // buffer of memory that is stored on the GPU
         VertexBuffer vb(positions, 4 * 2 * sizeof(float));
 
-        // vertex Attributes // layout of the buffer
-        glEnableVertexAttribArray(0);// enable index 0
-        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
+        VertexBufferLayout layout;
+        layout.Push<float>(2);
+        va.AddBuffer(vb,layout);
 
         //index buffer object
         IndexBuffer ib(indices, 6);
@@ -92,7 +90,7 @@ int main(void){
             shader.Bind();
             shader.SetUniforms4f("u_Color", r, 0.2f, 0.5f, 1.0f);
 
-            GLCALL(glBindVertexArray(vao));
+            va.Bind();
             ib.Bind(); //bind index buffer
 
             // Draw amount of indices
