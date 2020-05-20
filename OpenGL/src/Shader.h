@@ -28,6 +28,8 @@ public:
 
 	//Set uniforms
 
+	void  SetUniforms1i(const std::string& name, int value);
+	void  SetUniforms1f(const std::string& name, float value);
 	void  SetUniforms4f(const std::string& name, float v0, float v1, float f2, float f3);
 
 private: 
@@ -36,5 +38,5 @@ private:
 	unsigned int CreateShader(const std::string& vertexShader, const std::string& fragmentShader);
 
 
-	unsigned int GetUniformLocation(const std::string& name);
+	int GetUniformLocation(const std::string& name);
 };

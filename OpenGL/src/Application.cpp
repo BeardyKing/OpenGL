@@ -13,6 +13,7 @@
 #include "IndexBuffer.h"
 #include "Shader.h"
 #include "VertexArray.h"
+#include "Texture.h"
 
 
 int main(void){
@@ -47,10 +48,10 @@ int main(void){
     { // create scope
         //vertex positions
         float positions[] = {
-            -0.5f, -0.5f, //0
-             0.5f, -0.5f, //1
-             0.5f,  0.5f, //2
-            -0.5f,  0.5f, //3
+            -0.5f, -0.5f, 0.0f, 0.0f,//0
+             0.5f, -0.5f, 1.0f, 0.0f,//1
+             0.5f,  0.5f, 1.0f, 1.0f,//2
+            -0.5f,  0.5f, 0.0f, 1.0f//3
         };
 
         //index buffer of vertex positions
@@ -59,12 +60,16 @@ int main(void){
             2,3,0
         };
 
+        GLCALL(glEnable(GL_BLEND));
+        GLCALL(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+
         VertexArray va;
 
         // Vertex Buffer // buffer of memory that is stored on the GPU
-        VertexBuffer vb(positions, 4 * 2 * sizeof(float));
+        VertexBuffer vb(positions, 4 * 4 * sizeof(float));
 
         VertexBufferLayout layout;
+        layout.Push<float>(2);
         layout.Push<float>(2);
         va.AddBuffer(vb,layout);
 
@@ -74,6 +79,10 @@ int main(void){
         Shader shader("res/shaders/Basic.shader");
         shader.Bind();
         shader.SetUniforms4f("u_Color", 0.8f, 0.2f, 0.5f, 1.0f);
+
+        Texture texture("res/textures/fg.png");
+        texture.Bind();
+        shader.SetUniforms1i("u_Texture", 0);
         
         
         shader.Unbind();
