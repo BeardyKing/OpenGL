@@ -15,6 +15,9 @@
 #include "VertexArray.h"
 #include "Texture.h"
 
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+
 
 int main(void){
     GLFWwindow* window;
@@ -48,10 +51,10 @@ int main(void){
     { // create scope
         //vertex positions
         float positions[] = {
-            -0.5f, -0.5f, 0.0f, 0.0f,//0
-             0.5f, -0.5f, 1.0f, 0.0f,//1
-             0.5f,  0.5f, 1.0f, 1.0f,//2
-            -0.5f,  0.5f, 0.0f, 1.0f//3
+            -0.8f, -0.45f, 0.0f, 0.0f,//0
+             0.8f, -0.45f, 1.0f, 0.0f,//1
+             0.8f,  0.45f, 1.0f, 1.0f,//2
+            -0.8f,  0.45f, 0.0f, 1.0f//3
         };
 
         //index buffer of vertex positions
@@ -76,8 +79,11 @@ int main(void){
         //index buffer object
         IndexBuffer ib(indices, 6);
 
+        glm::mat4 proj = glm::ortho(-1.6f, 1.6f, -0.9f, 0.9f, -1.0f, 1.0f);
+
         Shader shader("res/shaders/Basic.shader");
         shader.Bind();
+        shader.SetUniformsMat4f("u_MVP", proj);
         shader.SetUniforms4f("u_Color", 0.8f, 0.2f, 0.5f, 1.0f);
 
         Texture texture("res/textures/fg.png");
