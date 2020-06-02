@@ -87,10 +87,10 @@ int main(void){
     { // create scope
         //vertex positions
         float positions[] = {
-             100.0f,  0.0f, 0.0f, 0.0f,//0
-             200.0f,  0.0f, 1.0f, 0.0f,//1
-             200.0f,  100.0f, 1.0f, 1.0f,//2
-             100.0f,  100.0f, 0.0f, 1.0f//3
+             -50.0f, -50.0f, 0.0f, 0.0f,//0
+              50.0f, -50.0f, 1.0f, 0.0f,//1
+              50.0f,  50.0f, 1.0f, 1.0f,//2
+             -50.0f,  50.0f, 0.0f, 1.0f//3
         };
 
         //index buffer of vertex positions
@@ -116,7 +116,7 @@ int main(void){
         IndexBuffer ib(indices, 6);
 
         glm::mat4 proj = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
-        glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(-100, 0, 0));
+        glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
        /* glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(200, 200, 0));
 
         glm::mat4 mvp = proj * view * model;*/
@@ -140,7 +140,8 @@ int main(void){
         float r = 0.0f;
         float increment = 0.05f;
 
-        glm::vec3 translation(0, 0, 0);
+        glm::vec3 translationA(200, 200, 0);
+        glm::vec3 translationB(400, 200, 0);
 
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window)){
@@ -156,7 +157,8 @@ int main(void){
 				static int counter = 0;
 
 				ImGui::Begin("TRANSFROM");                          
-                ImGui::SliderFloat3("translation", &translation.x, 0.0f, 960.0f);
+                ImGui::SliderFloat3("translationA", &translationA.x, 0.0f, 960.0f);
+                ImGui::SliderFloat3("translationB", &translationB.x, 0.0f, 960.0f);
 
 				ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 				ImGui::End();
@@ -165,17 +167,26 @@ int main(void){
 
 
             /* Render here */
+
             renderer.Clear();
+            {
+			    glm::mat4 model = glm::translate(glm::mat4(1.0f),translationA);
+			    glm::mat4 mvp = proj * view * model;
+                shader.Bind();
+			    shader.SetUniformsMat4f("u_MVP", mvp);
 
+                renderer.Draw(va, ib, shader);
+            }
 
-			glm::mat4 model = glm::translate(glm::mat4(1.0f),translation);
-			glm::mat4 mvp = proj * view * model;
+			{
+				glm::mat4 model = glm::translate(glm::mat4(1.0f), translationB);
+				glm::mat4 mvp = proj * view * model;
+                shader.Bind();
+				shader.SetUniformsMat4f("u_MVP", mvp);
 
-            shader.Bind();
-            shader.SetUniforms4f("u_Color", r, 0.3f, 0.8f, 1.0f);
-			shader.SetUniformsMat4f("u_MVP", mvp);
+				renderer.Draw(va, ib, shader);
+			}
 
-            renderer.Draw(va, ib, shader);
 
 			ImGui::Render();
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
