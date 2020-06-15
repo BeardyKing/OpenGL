@@ -21,6 +21,7 @@
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
+#include "tests/TestClearColour.h"
 
 
 int main(void){
@@ -143,6 +144,9 @@ int main(void){
         glm::vec3 translationA(200, 200, 0);
         glm::vec3 translationB(400, 200, 0);
 
+        test::TestClearColour clearColTest;
+
+
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window)){
 			glfwPollEvents();
@@ -150,9 +154,13 @@ int main(void){
 			ImGui_ImplOpenGL3_NewFrame();
 			ImGui_ImplGlfw_NewFrame();
 
+            clearColTest.OnUpdate(0.0f);
+            clearColTest.OnRender();
+
+
 			ImGui::NewFrame();
 
-			{
+			/*{
 				static float f = 0.0f;
 				static int counter = 0;
 
@@ -162,8 +170,10 @@ int main(void){
 
 				ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 				ImGui::End();
-			}
-
+			}*/
+            {
+                clearColTest.OnImGuiRender();
+            }
 
 
             /* Render here */
