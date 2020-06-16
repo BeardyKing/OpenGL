@@ -1,4 +1,8 @@
 #pragma once
+#include <iostream>
+#include <vector>
+#include <string>
+#include <functional>
 
 namespace test {
 
@@ -12,4 +16,21 @@ namespace test {
 		virtual void OnImGuiRender(){}
 	};
 
+	class TestMenu : public Test {
+	public:
+		TestMenu(Test*& currentTestPointer);
+
+		void OnImGuiRender() override;
+
+		template<typename T>
+		void RegisterTest(const std::string& name) 
+		{
+			std::cout << "restering test" << name << std::endl;
+			m_tests.push_back(std::make_pair(name, []() {return new T(); }));
+		}
+	private:
+		Test*& m_CurrentTest;
+		std::vector<std::pair<std::string, std::function<Test* ()>>> m_tests;
+	};
 }
+

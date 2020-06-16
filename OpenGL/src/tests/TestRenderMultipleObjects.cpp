@@ -30,18 +30,18 @@ namespace test {
 	m_proj{ glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f) },
 	m_view{ glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0)) }
 	{
-		static VertexBufferLayout layout_temp;
-		m_layout = &layout_temp;
+		VertexBufferLayout* layout_temp = new VertexBufferLayout;
+		m_layout = layout_temp;
 		m_layout->Push<float>(2);
 		m_layout->Push<float>(2);
 
-		static VertexBuffer vb_temp(m_positions, 4 * 4 * sizeof(float));
-		m_vb = &vb_temp;
+		VertexBuffer* vb_temp = new VertexBuffer(m_positions, 4 * 4 * sizeof(float));
+		m_vb = vb_temp;
 
 		m_va.AddBuffer(*m_vb, *m_layout);
 
-		static IndexBuffer ib_Temp(m_indices, 6);
-		m_ib = &ib_Temp;
+		IndexBuffer* ib_Temp = new IndexBuffer(m_indices, 6);
+		m_ib = ib_Temp;
 
 		m_shader.Bind();
 		m_texture.Bind();
@@ -56,9 +56,14 @@ namespace test {
 	}
 
 	TestRenderMultipleObjects::~TestRenderMultipleObjects() {
+		delete m_layout;
+		delete m_vb;
+		delete m_ib;
+
 		m_layout = nullptr;
 		m_vb = nullptr;
 		m_ib = nullptr;
+		//std::cout << "Layout Size : " << m_layout->getElements().size() << std::endl;
 	}
 
 	void TestRenderMultipleObjects::OnUpdate(float deltaTime) { }

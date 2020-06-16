@@ -21,8 +21,11 @@
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
+
+#include "tests/test.h"
 #include "tests/TestClearColour.h"
 #include "tests/TestRenderMultipleObjects.h"
+
 
 
 int main(void){
@@ -95,41 +98,59 @@ int main(void){
 
 	#pragma endregion
 
+	Renderer renderer;
+
 	GLCALL(glEnable(GL_BLEND));
 	GLCALL(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
     { 
-        test::TestClearColour clearColTest;
-		test::TestRenderMultipleObjects multiple;
+		test::Test* currentTest = nullptr;
+		test::TestMenu* testMenu = new test::TestMenu(currentTest);
+		currentTest = testMenu;
+
+		testMenu->RegisterTest<test::TestClearColour>("Clear Colour");
+		testMenu->RegisterTest<test::TestRenderMultipleObjects>("Multiple Objects");
+        /*test::TestClearColour clearColTest;
+		test::TestRenderMultipleObjects multiple;*/
 
         while (!glfwWindowShouldClose(window)){
+			GLCALL(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
+			renderer.Clear();
+
 			glfwPollEvents();
-
-			{
-				clearColTest.OnUpdate(0.0f);
-				multiple.OnUpdate(0.0f);
-			}
-
-			{
-				clearColTest.OnRender();
-				multiple.OnRender();
-			}
-
 			{
 				ImGui_ImplOpenGL3_NewFrame();
 				ImGui_ImplGlfw_NewFrame();
 				ImGui::NewFrame();
+
+				if (currentTest){
+					currentTest->OnUpdate(0.0f);
+					currentTest->OnRender();
+					ImGui::Begin("Test");
+					if (currentTest != testMenu && ImGui::Button("<-"))
+					{
+						delete currentTest;
+						currentTest = testMenu;
+					}
+					currentTest->OnImGuiRender();
+					ImGui::End();
+				}
 				
-				clearColTest.OnImGuiRender();
-				multiple.OnImGuiRender();
+				/*clearColTest.OnImGuiRender();
+				multiple.OnImGuiRender();*/
 				
 				ImGui::Render();
 				ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 			}
-			            
+			      
+
             glfwSwapBuffers(window);
             glfwPollEvents();
         } 
+		delete currentTest;
+		if (currentTest != testMenu){
+			delete testMenu;
+		}
     }
 
 	// Shutdown

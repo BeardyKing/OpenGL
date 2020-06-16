@@ -23,6 +23,7 @@
     <ClCompile Include="src\IndexBuffer.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\tests\test.cpp" />
     <ClCompile Include="src\tests\TestClearColour.cpp" />
     <ClCompile Include="src\tests\TestDrawTriangle.cpp" />
     <ClCompile Include="src\tests\TestRenderMultipleObjects.cpp" />
