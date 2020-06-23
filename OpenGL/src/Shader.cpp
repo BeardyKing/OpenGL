@@ -119,17 +119,17 @@ void Shader::SetUniformsMat4f(const std::string& name, const glm::mat4& matrix)
 
 int Shader::GetUniformLocation(const std::string& name)
 {
-	if (m_UniformLocationCache.find(name) != m_UniformLocationCache.end())
-	{
+	if (m_UniformLocationCache.find(name) != m_UniformLocationCache.end()){
 		return m_UniformLocationCache[name];
 	}
 
 	GLCALL(int location = glGetUniformLocation(m_RendererID, name.c_str())); //get id of the u_Color variable in shader)
 
-	if (location == -1)
-	{
+	#if _DEBUG
+	if (location == -1){
 		std::cout << "Warning: uniform '" << name << "'does not exist" << std::endl;
 	}
+	#endif
 	
 	m_UniformLocationCache[name] = location;
 	return location;

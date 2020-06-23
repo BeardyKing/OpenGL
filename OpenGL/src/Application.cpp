@@ -26,6 +26,8 @@
 #include "tests/TestClearColour.h"
 #include "tests/TestRenderMultipleObjects.h"
 #include "tests/TestTexture2D.h"
+#include "tests/TestBatchRendering.h"
+#include "tests/TestHelloTriangle.h"
 
 
 
@@ -109,9 +111,11 @@ int main(void){
 		test::TestMenu* testMenu = new test::TestMenu(currentTest);
 		currentTest = testMenu;
 
-		testMenu->RegisterTest<test::TestClearColour>("Clear Colour");
-		testMenu->RegisterTest<test::TestTexture2D>("Texture Test");
-		testMenu->RegisterTest<test::TestRenderMultipleObjects>("Multiple Objects");
+		testMenu->RegisterTest<test::TestClearColour>			("Clear Colour");
+		testMenu->RegisterTest<test::TestHelloTriangle>			("Hello Triangle - glDrawArrays");
+		testMenu->RegisterTest<test::TestTexture2D>				("Texture Test");
+		testMenu->RegisterTest<test::TestRenderMultipleObjects>	("Multiple Objects");
+		testMenu->RegisterTest<test::TestBatchRendering>		("Batch Rendering");
 
 
         while (!glfwWindowShouldClose(window)){

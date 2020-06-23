@@ -24,8 +24,10 @@
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\tests\test.cpp" />
+    <ClCompile Include="src\tests\TestBatchRendering.cpp" />
     <ClCompile Include="src\tests\TestClearColour.cpp" />
     <ClCompile Include="src\tests\TestDrawTriangle.cpp" />
+    <ClCompile Include="src\tests\TestHelloTriangle.cpp" />
     <ClCompile Include="src\tests\TestRenderMultipleObjects.cpp" />
     <ClCompile Include="src\tests\TestTexture2D.cpp" />
     <ClCompile Include="src\Texture.cpp" />
@@ -41,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Basic.shader" />
+    <None Include="res\shaders\simple\vertex.shader" />
     <None Include="src\vendor\glm\detail\func_common.inl" />
     <None Include="src\vendor\glm\detail\func_common_simd.inl" />
     <None Include="src\vendor\glm\detail\func_exponential.inl" />
@@ -183,8 +186,10 @@
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\tests\test.h" />
+    <ClInclude Include="src\tests\TestBatchRendering.h" />
     <ClInclude Include="src\tests\TestClearColour.h" />
     <ClInclude Include="src\tests\TestDrawTriangle.h" />
+    <ClInclude Include="src\tests\TestHelloTriangle.h" />
     <ClInclude Include="src\tests\TestRenderMultipleObjects.h" />
     <ClInclude Include="src\tests\TestTexture2D.h" />
     <ClInclude Include="src\Texture.h" />
