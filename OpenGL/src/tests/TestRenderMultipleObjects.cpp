@@ -8,11 +8,6 @@
 namespace test {
 	TestRenderMultipleObjects::TestRenderMultipleObjects()
 		:
-	m_renderer(),
-	m_layout(),
-	m_va(),
-	m_vb(),
-	m_ib(),
 	m_shader("res/shaders/Basic.shader"),
 	m_texture("res/textures/fg.png"),
 	m_positions{
@@ -50,9 +45,6 @@ namespace test {
 		m_shader.Unbind();
 		m_vb->Unbind();
 		m_ib->Unbind();
-
-		Renderer renderer_temp;
-		m_renderer = &renderer_temp;
 	}
 
 	TestRenderMultipleObjects::~TestRenderMultipleObjects() {
@@ -63,20 +55,19 @@ namespace test {
 		m_layout = nullptr;
 		m_vb = nullptr;
 		m_ib = nullptr;
-		//std::cout << "Layout Size : " << m_layout->getElements().size() << std::endl;
 	}
 
 	void TestRenderMultipleObjects::OnUpdate(float deltaTime) { }
 
 	void TestRenderMultipleObjects::OnRender() {
-		m_renderer->Clear();
+		Renderer renderer;
 		{
 			glm::mat4 model = glm::translate(glm::mat4(1.0f), m_translationA);
 			glm::mat4 mvp = m_proj * m_view * model;
 			m_shader.Bind();
 			m_shader.SetUniformsMat4f("u_MVP", mvp);
 
-			m_renderer->Draw(m_va, *m_ib, m_shader);
+			renderer.Draw(m_va, *m_ib, m_shader);
 		}
 
 		{
@@ -85,7 +76,7 @@ namespace test {
 			m_shader.Bind();
 			m_shader.SetUniformsMat4f("u_MVP", mvp);
 
-			m_renderer->Draw(m_va, *m_ib, m_shader);
+			renderer.Draw(m_va, *m_ib, m_shader);
 		}
 	}
 

@@ -25,6 +25,7 @@
 #include "tests/test.h"
 #include "tests/TestClearColour.h"
 #include "tests/TestRenderMultipleObjects.h"
+#include "tests/TestTexture2D.h"
 
 
 
@@ -109,9 +110,9 @@ int main(void){
 		currentTest = testMenu;
 
 		testMenu->RegisterTest<test::TestClearColour>("Clear Colour");
+		testMenu->RegisterTest<test::TestTexture2D>("Texture Test");
 		testMenu->RegisterTest<test::TestRenderMultipleObjects>("Multiple Objects");
-        /*test::TestClearColour clearColTest;
-		test::TestRenderMultipleObjects multiple;*/
+
 
         while (!glfwWindowShouldClose(window)){
 			GLCALL(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
@@ -135,9 +136,6 @@ int main(void){
 					currentTest->OnImGuiRender();
 					ImGui::End();
 				}
-				
-				/*clearColTest.OnImGuiRender();
-				multiple.OnImGuiRender();*/
 				
 				ImGui::Render();
 				ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
