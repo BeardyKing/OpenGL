@@ -28,6 +28,7 @@
 #include "tests/TestTexture2D.h"
 #include "tests/TestBatchRendering.h"
 #include "tests/TestHelloTriangle.h"
+#include "tests/TestTransformationOrtho.h"
 
 
 
@@ -114,7 +115,8 @@ int main(void){
 		testMenu->RegisterTest<test::TestClearColour>			("Clear Colour");
 		testMenu->RegisterTest<test::TestHelloTriangle>			("Hello Triangle - glDrawArrays");
 		testMenu->RegisterTest<test::TestTexture2D>				("Texture Test");
-		testMenu->RegisterTest<test::TestRenderMultipleObjects>	("Multiple Objects");
+		testMenu->RegisterTest<test::TestRenderMultipleObjects>("Multiple Objects");
+		testMenu->RegisterTest<test::TestTransformationOrtho>	("Transformation ortho");
 		testMenu->RegisterTest<test::TestBatchRendering>		("Batch Rendering");
 
 
