@@ -31,6 +31,7 @@
     <ClCompile Include="src\tests\TestRenderMultipleObjects.cpp" />
     <ClCompile Include="src\tests\TestTexture2D.cpp" />
     <ClCompile Include="src\tests\TestTransformationOrtho.cpp" />
+    <ClCompile Include="src\tests\TestTransformationPerspective.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\vendor\imgui\imgui.cpp" />
     <ClCompile Include="src\vendor\imgui\imgui_demo.cpp" />
@@ -44,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Basic.shader" />
+    <None Include="res\shaders\Basic_Pespective.shader" />
     <None Include="res\shaders\simple\vertex.shader" />
     <None Include="src\vendor\glm\detail\func_common.inl" />
     <None Include="src\vendor\glm\detail\func_common_simd.inl" />
@@ -195,6 +197,7 @@
     <ClInclude Include="src\tests\TestRenderMultipleObjects.h" />
     <ClInclude Include="src\tests\TestTexture2D.h" />
     <ClInclude Include="src\tests\TestTransformationOrtho.h" />
+    <ClInclude Include="src\tests\TestTransformationPerspective.h" />
     <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\vendor\glm\common.hpp" />
     <ClInclude Include="src\vendor\glm\detail\compute_common.hpp" />

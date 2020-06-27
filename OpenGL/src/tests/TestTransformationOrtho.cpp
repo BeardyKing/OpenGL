@@ -17,7 +17,7 @@ namespace test {
 		m_View(glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0))),
 		m_translationA(glm::vec3(300, 300, 0)),
 		m_RotationAxis(glm::vec3(0.0f, 1.0f, 0.5f)),
-		m_RotationSpeedDelta(1),
+		m_RotationSpeedDelta(65),
 		m_ScaleTimer(0)
 	{
 		float position[] = {

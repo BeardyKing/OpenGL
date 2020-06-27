@@ -109,6 +109,7 @@ int main(){
 		testMenu->RegisterTest<test::TestTexture2D>				("Texture Test");
 		testMenu->RegisterTest<test::TestRenderMultipleObjects> ("Multiple Objects");
 		testMenu->RegisterTest<test::TestTransformationOrtho>	("Transformation ortho");
+		testMenu->RegisterTest<test::TestTransformationPerspective>	("Transformation Perspective");
 		testMenu->RegisterTest<test::TestBatchRendering>		("Batch Rendering");
 
 

@@ -7,3 +7,4 @@
 #include "tests/TestBatchRendering.h"
 #include "tests/TestHelloTriangle.h"
 #include "tests/TestTransformationOrtho.h"
+#include "tests/TestTransformationPerspective.h"
